@@ -1,0 +1,75 @@
+<!--
+Home HTML Page
+
+
+Revision History
+
+- 7/2 -   Sean -  Changes to utilize base template and potential bootstrap
+                features
+
+
+To Do
+
+- Transaction entry
+- Button interaction/fields
+
+-->
+
+
+{% extends "base.html" %}
+
+{% block content %}
+        <div align="center" class="container">
+            <h3>Hello, {{firstname}}! </h3>
+            <br>
+
+            <!-- Needs transaction entry field -->
+
+            <button type="button">Deposit</button>
+            <button type="button">Withdrawal</button>
+            <button type="button">Transfer</button>
+        </div>
+            <!-- bootstrap radio button -->
+        <div class="container" align="center">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="radio"
+                    name="accountRadio"
+                    id="checkingRadio"
+                    value="checking"
+                    checked
+                />
+                <label class="form-check-label" for="checkingRadio">
+                    Checking Account
+                </label>
+            </div>
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="radio"
+                    name="accountRadio"
+                    id="savingsRadio"
+                    value="savings"
+                />
+                <label class="form-check-label" for="savingsRadio">
+                    Savings Account
+                </label>
+            </div>
+        </div>
+
+            <br>
+            <hr width="100">
+            <br>
+
+        <div align="center" class="container">
+            <h3>Checking Account</h3>
+            <p>Balance: {{checking}}</p>
+            <h3>Savings Account</h3>
+            <p>Balance: {{savings}}</p>
+            <p>Interest Earned: {{interest}}</p>
+        </div>
+		<br>
+        <br>
+        <p align="center">If you have any questions, concerns, or comments, you can reach our 24/7 hotline at 800-31-COBRA.</p>
+{% endblock %}
