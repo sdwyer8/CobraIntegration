@@ -56,9 +56,9 @@ def register_func():
                   category='error')
         elif not valid_email:
             flash('The email address entered is invalid.', category='error')
-        elif not check_complexity(password):
-            flash('The password does not meet complexity requirements.',
-                  category='error')
+        #elif not check_complexity(password):
+            #flash('The password does not meet complexity requirements.',
+                  #category='error')
         elif password != password_compare:
             flash('The passwords entered do not match.', category='error')
         else:

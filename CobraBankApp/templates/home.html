@@ -6,7 +6,7 @@ Revision History
 
 - 7/2 -   Sean -  Changes to utilize base template and potential bootstrap
                 features
-
+- 7/3 - Keith - Rearranged balance and added transaction form
 
 To Do
 
@@ -19,18 +19,25 @@ To Do
 {% extends "base.html" %}
 
 {% block content %}
+
         <div align="center" class="container">
             <h3>Hello, {{firstname}}! </h3>
             <br>
-
-            <!-- Needs transaction entry field -->
-
-            <button type="button">Deposit</button>
-            <button type="button">Withdrawal</button>
-            <button type="button">Transfer</button>
         </div>
-            <!-- bootstrap radio button -->
+        <div align="center" class="container">
+            <h3>Checking Account</h3>
+            <p>Balance: {{checking}}</p>
+            <h3>Savings Account</h3>
+            <p>Balance: {{savings}}</p>
+            <p>Interest Earned: {{interest}}</p>
+            <p>User ID: {{userid}}</p>
+        </div>
+		<br>
+    <!-- Needs transaction entry field -->
+    <form  method = "POST">
+       
         <div class="container" align="center">
+            <h3>Please Choose Your Account</h3>
             <div class="form-check">
                 <input
                     class="form-check-input"
@@ -57,19 +64,35 @@ To Do
                 </label>
             </div>
         </div>
+        <div align="center">
+            <label class="form-check-label" for="select">
+                Initiate a transaction : 
+            </label>
+            <select id="transType" name="transType">
+                <option value="deposit" selected>Deposit</option>
+                <option value="withdrawal" >Withdrawal</option>
+                <option value="transferChecking" >Transfer from Checkings to Savings</option>
+                <option value="transferSavings" >Transfer from Savings to Checkings</option>
+            </select><br>
+            <div class="form-group col-xs-4">
+                <label class="sr-only" for="InputAmount">Amount (in dollars)</label>
+                <div class="input-group">
+                    <div class="input-group-addon">$ </div>
+                        <input type="number" class="form-control" id="InputAmount" name="InputAmount" placeholder="Amount" min="0" max="10000" >
+                    <div class="input-group-addon">.00 </div>
+                </div>
+            </div>
+            <button type="submit" >Submit</button>
+        </div>
+    </form>
+
+
 
             <br>
             <hr width="100">
             <br>
 
-        <div align="center" class="container">
-            <h3>Checking Account</h3>
-            <p>Balance: {{checking}}</p>
-            <h3>Savings Account</h3>
-            <p>Balance: {{savings}}</p>
-            <p>Interest Earned: {{interest}}</p>
-        </div>
-		<br>
+        
         <br>
         <p align="center">If you have any questions, concerns, or comments, you can reach our 24/7 hotline at 800-31-COBRA.</p>
 {% endblock %}
