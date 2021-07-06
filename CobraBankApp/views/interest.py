@@ -27,7 +27,7 @@ def update_interest():
     APD = APY/365
     today = datetime.now()
     delta = today - account.date_updated
-    if delta.days > 0:
+    if delta.days > 0 and account.savings_balance > 0:
         collect_interest = (APD * delta.days) * account.savings_balance
         new_interest = account.savings_interest + collect_interest
         account.savings_interest = new_interest
