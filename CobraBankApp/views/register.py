@@ -12,6 +12,7 @@ Revision History
 - 6/28 -  Sean -  Flask framework integration and reformatting
 - 6/29 -  Sean -  Data base integration and significant reworking begun
 - 7/2 -   Sean -  Significant edits for integration
+- 7/3 -   Keith - Commented out password complexity for testing purposes
 
 
 To Do
@@ -56,9 +57,9 @@ def register_func():
                   category='error')
         elif not valid_email:
             flash('The email address entered is invalid.', category='error')
-        elif not check_complexity(password):
-            flash('The password does not meet complexity requirements.',
-                  category='error')
+        #elif not check_complexity(password):
+            #flash('The password does not meet complexity requirements.',
+                  #category='error')
         elif password != password_compare:
             flash('The passwords entered do not match.', category='error')
         else:
