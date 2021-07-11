@@ -20,8 +20,8 @@ interest = Blueprint('interest', __name__)
 
 
 @interest.route('/interest')
-def update_interest():
-    user = User.query.filter_by(id=g.user).first()
+def update_interest(username):
+    user = User.query.filter_by(username=username).first()
     account = Account.query.filter_by(user_id=user.id).first()
     APY = .005
     APD = APY/365
