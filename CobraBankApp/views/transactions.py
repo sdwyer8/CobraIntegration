@@ -11,6 +11,7 @@ Revision History
 - 7/2 -   Sean -  Addition of home route for base display of home.html
 - 7/3 - keith - Changed transactions to match Sean's database model
 - 7/5 - Keith - Adjusted home screen to input into values and pass them in the authenticated post instead of having each one go into itself.
+- 7/11 - Keith - Cleaned up code and adjusted flash statements to say the right account
 
 
 To Do
@@ -45,7 +46,6 @@ def home():
         transactionType = request.form.get('transType')
         accountType = request.form.get('accountRadio')        
         inputAmt = request.form.get('InputAmount')
-        #flash("this is working", category='success')
         if(transactionType == "deposit"):
             deposit(inputAmt=inputAmt, accountType = accountType, user_id = user.id)
         elif(transactionType =="withdrawal"):
@@ -55,7 +55,6 @@ def home():
         elif(transactionType =="transferSavings"):
             transfer(inputAmt=inputAmt, accountType = "savings", user_id = user.id)
         print(accountType)
-        #print(inputAmt)
         print(transactionType)
 
     return render_template(
@@ -85,6 +84,7 @@ def withdrawal(inputAmt, accountType, user_id):
             print(newBal) 
             account.checking_balance = newBal
             db.session.commit()
+            flash('Withdrawal from Checkings Successful', category ='Success')
         elif(account.checking_balance < float(inputAmt)):
             flash('OverDraft Alert -$20 fee applied', category ='error')
             newBal = account.checking_balance-float(inputAmt)-20
@@ -97,6 +97,7 @@ def withdrawal(inputAmt, accountType, user_id):
             print(newBal) 
             account.savings_balance = newBal
             db.session.commit()
+            flash('Withdrawal from savings Successful', category ='Success')
         elif(account.savings_balance < float(inputAmt)):
             flash('OverDraft Alert -$20 fee applied', category ='error')
             newBal = account.savings_balance-float(inputAmt)-20
@@ -104,27 +105,22 @@ def withdrawal(inputAmt, accountType, user_id):
             account.savings_balance = newBal
             db.session.commit()
     
-        
-        #newBalance = Accounts.query.filter_by(user_id=4).first()
-        #print(newBalance.checkings)
 
     return render_template('home.html',
         title='Home',
         is_authenticated=True,
-        #firstname=user.first_name,
         checking=account.checking_balance,
         savings=account.savings_balance,
         interest=account.savings_interest
-        #userid = user.id
         )
 
 
 def deposit(inputAmt, accountType, user_id):
     # find account by id -> will need to change this to the current user id or email when logged in
-    #flash('Working on your deposit', category ='Success')
+   
     account = Account.query.filter_by(user_id=user_id).first()
     if(accountType == "checking"):
-        flash('Working on your deposit in your checking account', category ='Success')
+        flash('Deposit in your checking account successful', category ='Success')
         print(account.checking_balance)
         print(inputAmt)
         newBal = account.checking_balance+float(inputAmt)
@@ -132,7 +128,7 @@ def deposit(inputAmt, accountType, user_id):
         account.checking_balance = newBal
         db.session.commit()
     elif(accountType == "savings"):
-        flash('Working on your deposit in your savings account', category ='Success')
+        flash('Deposit in your savings account successful', category ='Success')
         print(account.savings_balance)
         print(inputAmt)
         newBal = account.savings_balance+float(inputAmt)
@@ -143,11 +139,9 @@ def deposit(inputAmt, accountType, user_id):
     return render_template('home.html',
         title='Home',
         is_authenticated=True,
-        #firstname=user.first_name,
         checking=account.checking_balance,
         savings=account.savings_balance,
         interest=account.savings_interest
-        #userid = user.id
         )
 
 
@@ -156,7 +150,7 @@ def transfer(inputAmt, accountType, user_id):
     account = Account.query.filter_by(user_id=user_id).first()
     if(accountType == "checking"):
         if (account.checking_balance > float(inputAmt)):
-            flash('Transfer from Checkings to Savings Successful', category ='Success')
+            flash('Transfer from Checking to Savings Successful', category ='Success')
             newBal = account.checking_balance-float(inputAmt)
             print(newBal) 
             account.checking_balance = newBal
@@ -173,7 +167,7 @@ def transfer(inputAmt, accountType, user_id):
             db.session.commit()
     elif(accountType =="savings"):
         if (account.savings_balance > float(inputAmt)):
-            flash('Transfer from Checkings to Savings Successful', category ='Success')
+            flash('Transfer from Savings to Checking Successful', category ='Success')
             newBal = account.savings_balance-float(inputAmt)
             print(newBal) 
             account.savings_balance = newBal
@@ -192,9 +186,7 @@ def transfer(inputAmt, accountType, user_id):
     return render_template('home.html',
         title='Home',
         is_authenticated=True,
-        #firstname=user.first_name,
         checking=account.checking_balance,
         savings=account.savings_balance,
         interest=account.savings_interest
-        #userid = user.id
         )
