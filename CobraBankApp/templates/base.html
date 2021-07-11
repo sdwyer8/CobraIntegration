@@ -4,7 +4,8 @@ Home HTML Page
 
 Revision History
 
-- 7/2 -   Sean -  Limited edits
+- 7/2  -  Sean -  Limited edits
+- 7/10 -  Sean -  Fixed nav bar if-statement conditions
 
 
 To Do
@@ -53,10 +54,9 @@ To Do
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Will need to resolve if statements -->
             <div class="collapse navbar-collapse" id="navbar">
                 <div class="navbar-nav">
-                    {% if user_authenticated %}
+                    {% if g.user != None %}
 
                         <a class="nav-item nav-link" id="home" href="/home">Home</a>
                         <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>

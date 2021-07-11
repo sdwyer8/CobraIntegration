@@ -8,18 +8,20 @@ used in original testing.
 
 Revision History
 
-- 6/24 -  Sean -  Initial creation
-- 6/28 -  Sean -  Flask framework integration and reformatting
-- 6/29 -  Sean -  Data base integration and significant reworking begun
-- 7/2 -   Sean -  Significant edits for integration
-- 7/3 -   Keith - Commented out password complexity for testing purposes
+- 6/24 -  Sean  -  Initial creation
+- 6/28 -  Sean  -  Flask framework integration and reformatting
+- 6/29 -  Sean  -  Data base integration and significant reworking begun
+- 7/2  -  Sean  -  Significant edits for integration
+- 7/3  -  Keith -  Commented out password complexity for testing purposes
+- 7/10 -  Sean  -  Fixed email validation
+- 7/11 -  Sean  -  Password complexity uncommented for final testing and
+                   submission
 
 
 To Do
 
 - Testing
--- Unit
--- Integration
+-- Final
 """
 
 from flask import (flash, redirect, render_template, url_for, request,
@@ -49,7 +51,7 @@ def register_func():
         try:
             email = validate_email(email).email
             valid_email = True
-        except EmailNotValidError as e:
+        except EmailNotValidError:
             valid_email = False
 
         if user:
@@ -57,9 +59,12 @@ def register_func():
                   category='error')
         elif not valid_email:
             flash('The email address entered is invalid.', category='error')
-        #elif not check_complexity(password):
-            #flash('The password does not meet complexity requirements.',
-                  #category='error')
+        elif User.query.filter_by(email=email).first():
+            flash('An account with that email address already exists.',
+                  category='error')
+        elif not check_complexity(password):
+            flash('The password does not meet complexity requirements.',
+                  category='error')
         elif password != password_compare:
             flash('The passwords entered do not match.', category='error')
         else:

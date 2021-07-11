@@ -10,7 +10,7 @@ To Do
 """
 
 from flask import (flash, redirect, render_template, url_for, request,
-                   Blueprint)
+                   Blueprint, g)
 from datetime import datetime
 
 from .. import db
@@ -27,12 +27,14 @@ def update_interest(username):
     APD = APY/365
     today = datetime.now()
     delta = today - account.date_updated
+
     if delta.days > 0 and account.savings_balance > 0:
         collect_interest = (APD * delta.days) * account.savings_balance
         new_interest = account.savings_interest + collect_interest
         account.savings_interest = new_interest
         account.date_updated = today
         db.session.commit()
+
     return render_template('home.html',
                            title='Home',
                            is_authenticated=True,
