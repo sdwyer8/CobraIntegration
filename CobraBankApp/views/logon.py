@@ -31,7 +31,7 @@ from datetime import datetime, timezone
 
 from .. import db
 from ..models import User, Account, Log
-from ..views import auth
+from ..views import auth, interest
 
 logon = Blueprint('logon', __name__)
 
@@ -62,6 +62,9 @@ def login():
 
                 flash(f'Logged in as {user.first_name} {user.last_name}!',
                       category='success')
+                
+                # call function to update interest
+                interest.update_interest(username)
 
                 return redirect(url_for('transactions.home'))
 
